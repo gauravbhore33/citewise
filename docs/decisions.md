@@ -13,3 +13,11 @@
 
 ## 2026-10-28: No vector index yet
 - Why: Phase 3 compares exact search with an HNSW index, so the table starts unindexed
+
+
+## 2026-10-29: Hibernate validates the schema instead of creating it
+- Why: the SQL file is the single source of truth, and a mismatch stops the app at startup instead of failing later
+- Trade-off: every schema change needs a SQL change and a matching entity change
+
+## 2026-10-29: Documents are always loaded by id and owner together
+- Why: a user guessing another user's document id gets "not found", never someone else's file
