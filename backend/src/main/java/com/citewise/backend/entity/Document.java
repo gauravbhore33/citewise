@@ -45,8 +45,8 @@ public class Document {
     @Column(name = "error_message", columnDefinition = "text")
     private String errorMessage;
 
-    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-    private Instant createdAt;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt = Instant.now();
 
     protected Document() {
         // required by JPA
@@ -73,4 +73,8 @@ public class Document {
 
     public void setStatus(DocumentStatus status) { this.status = status; }
     public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
 }

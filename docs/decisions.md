@@ -49,3 +49,17 @@
 
 ## 2026-10-29: Document.createdAt is set in Java
 - Why: Hibernate does not read back database-generated values after an insert, so the API response would show null
+
+
+## 2026-10-30: Files are validated by their first bytes, not by name or label
+- Why: the file name and Content-Type are chosen by the client, so they can lie
+- Consequence: only PDF, PNG and JPEG are accepted, and the stored extension comes from the detected type
+
+## 2026-10-30: Uploaded files are stored under random UUID names
+- Why: removes path traversal and name collision risks; the original name is kept in the database for display only
+
+## 2026-10-30: Another user's document returns 404, not 403
+- Why: a 403 would confirm that the id exists, and a 404 reveals nothing
+
+## 2026-10-30: Document.createdAt is set in Java
+- Why: Hibernate does not read back database-generated values after an insert, so the API response would show null
