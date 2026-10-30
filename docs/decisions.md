@@ -21,3 +21,31 @@
 
 ## 2026-10-29: Documents are always loaded by id and owner together
 - Why: a user guessing another user's document id gets "not found", never someone else's file
+
+
+## 2026-10-29: Stateless JWT authentication
+- Why: no server-side sessions to store or scale, and it fits a separate React frontend
+- Trade-off: a token cannot be revoked before it expires, so tokens are short-lived (1 hour)
+
+## 2026-10-29: BCrypt for passwords, with a 72-character limit
+- Why: slow, salted, one-way hashing; BCrypt only reads 72 bytes, so the API enforces it
+
+## 2026-10-29: Same error for unknown email and wrong password
+- Why: stops attackers from using the login to discover which emails are registered
+
+## 2026-10-29: CSRF protection disabled
+- Why: no cookies or sessions are used, only an Authorization header
+
+
+## 2026-10-29: Files are validated by their first bytes, not by name or label
+- Why: the file name and Content-Type are chosen by the client, so they can lie
+- Consequence: only PDF, PNG and JPEG are accepted, and the stored extension comes from the detected type
+
+## 2026-10-29: Uploaded files are stored under random UUID names
+- Why: removes path traversal and name collision risks; the original name is kept in the database for display only
+
+## 2026-10-29: Another user's document returns 404, not 403
+- Why: a 403 would confirm that the id exists, and a 404 reveals nothing
+
+## 2026-10-29: Document.createdAt is set in Java
+- Why: Hibernate does not read back database-generated values after an insert, so the API response would show null
