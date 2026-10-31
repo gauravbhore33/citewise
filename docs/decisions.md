@@ -89,3 +89,21 @@
 
 ## 2026-10-31: Limits on pages (300) and OCR time (60 seconds per page)
 - Why: a huge or strange file must not be able to tie up the service
+
+
+## 2026-11-01: Text extraction runs in the background
+- Why: OCR can take minutes; the upload returns at once and the document status shows progress (UPLOADED, PROCESSING, READY, FAILED)
+- Limit: two worker threads and a queue of 50, so a burst of uploads cannot overload the server
+
+## 2026-11-01: No database transaction is held during the call to the AI service
+- Why: a transaction open for minutes would hold a database connection; two short transactions are used instead
+
+## 2026-11-01: Failures are stored as short, safe messages
+- Why: users see what went wrong ("service not reachable"); technical details go only to the log
+
+## 2026-11-01: Reprocessing deletes old pages first
+- Why: it makes the operation safe to repeat, and gives a recovery path for failed documents
+
+## 2026-11-01: Schema change applied by hand to the existing database
+- The new SQL file also runs on fresh databases
+- Future improvement: a migration tool such as Flyway

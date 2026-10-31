@@ -11,10 +11,11 @@ public record DocumentResponse(
         String contentType,
         long fileSize,
         DocumentStatus status,
+        String errorMessage,
         Instant createdAt
 ) {
     public static DocumentResponse from(Document d) {
         return new DocumentResponse(d.getId(), d.getOriginalFilename(), d.getContentType(),
-                d.getFileSize(), d.getStatus(), d.getCreatedAt());
+                d.getFileSize(), d.getStatus(), d.getErrorMessage(), d.getCreatedAt());
     }
 }

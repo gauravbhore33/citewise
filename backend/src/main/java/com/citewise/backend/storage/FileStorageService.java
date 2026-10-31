@@ -49,6 +49,14 @@ public class FileStorageService {
         }
     }
 
+        public java.nio.file.Path resolve(String storedName) {
+        java.nio.file.Path path = root.resolve(storedName).normalize();
+        if (!path.startsWith(root)) {
+            throw new IllegalArgumentException("Invalid storage path");
+        }
+        return path;
+    }
+
     public void delete(String storedName) {
         try {
             Files.deleteIfExists(root.resolve(storedName).normalize());

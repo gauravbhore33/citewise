@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.citewise.backend.dto.DocumentResponse;
+import com.citewise.backend.dto.PageResponse;
 import com.citewise.backend.security.UserPrincipal;
 import com.citewise.backend.service.DocumentService;
 
@@ -44,5 +45,17 @@ public class DocumentController {
     public DocumentResponse get(@AuthenticationPrincipal UserPrincipal principal,
                                 @PathVariable Long id) {
         return documentService.get(principal.getId(), id);
+    }
+
+    @GetMapping("/{id}/pages")
+    public List<PageResponse> pages(@AuthenticationPrincipal UserPrincipal principal,
+                                    @PathVariable Long id) {
+        return documentService.getPages(principal.getId(), id);
+    }
+
+    @PostMapping("/{id}/reprocess")
+    public DocumentResponse reprocess(@AuthenticationPrincipal UserPrincipal principal,
+                                      @PathVariable Long id) {
+        return documentService.reprocess(principal.getId(), id);
     }
 }
