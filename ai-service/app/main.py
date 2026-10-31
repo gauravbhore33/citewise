@@ -1,6 +1,8 @@
 from fastapi import FastAPI, File, HTTPException, UploadFile
 
-from app.extraction import ExtractionError, extract_pdf
+from app.errors import ExtractionError, OcrUnavailableError
+from app.extraction import detect_kind, extract_pdf
+from app.ocr import ocr_image_bytes, clean_text
 
 app = FastAPI(title="CiteWise AI service")
 
@@ -13,18 +15,32 @@ def health():
 
 
 @app.post("/extract")
-def extract(file: UploadFile = File(...)):
+def extract(file: UploadFile = File(...), ocr: bool = True):
     data = file.file.read()
 
     if not data:
         raise HTTPException(status_code=400, detail="The file is empty")
     if len(data) > MAX_FILE_BYTES:
         raise HTTPException(status_code=413, detail="The file is too large")
-    if not data.startswith(b"%PDF-"):
-        raise HTTPException(status_code=415, detail="Only PDF files are supported so far")
+
+    kind = detect_kind(data)
+    if kind is None:
+        raise HTTPException(status_code=415, detail="Only PDF, PNG and JPEG files are supported")
 
     try:
-        pages = extract_pdf(data)
+        if kind == "pdf":
+            pages = extract_pdf(data, use_ocr=ocr)
+        else:
+            text = clean_text(ocr_image_bytes(data))
+            pages = [{
+                "page_number": 1,
+                "text": text,
+                "char_count": len(text),
+                "needs_ocr": True,
+                "method": "ocr",
+            }]
+    except OcrUnavailableError as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
     except ExtractionError as exc:
         raise HTTPException(status_code=422, detail=str(exc))
 

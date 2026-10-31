@@ -78,3 +78,14 @@
 
 ## 2026-10-30: requirements.txt created with pip freeze
 - Why: it records the exact versions that worked, so the service rebuilds the same way anywhere
+
+
+## 2026-10-31: Tesseract OCR only for pages with no text layer
+- Why: embedded text is exact and fast; OCR is slow and approximate, so it is a fallback
+- Each page records how it was read ("text" or "ocr"), because OCR quality may matter in evaluation
+
+## 2026-10-31: PDF pages are rendered at 300 DPI in grayscale before OCR
+- Why: a common balance of accuracy and speed; configurable with OCR_DPI
+
+## 2026-10-31: Limits on pages (300) and OCR time (60 seconds per page)
+- Why: a huge or strange file must not be able to tie up the service
