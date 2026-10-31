@@ -63,3 +63,18 @@
 
 ## 2026-10-30: Document.createdAt is set in Java
 - Why: Hibernate does not read back database-generated values after an insert, so the API response would show null
+
+
+## 2026-10-30: Separate Python service for AI work
+- Why: Python has the strongest PDF, OCR and embedding libraries; Spring Boot keeps users, files and the database
+- Trade-off: two services to run and deploy, connected over HTTP
+
+## 2026-10-30: The AI service is stateless and receives the file over HTTP
+- Why: easy to test, easy to run in Docker, and it does not share a disk with the backend
+
+## 2026-10-30: PyMuPDF for text extraction, page by page
+- Why: fast and accurate for PDFs with real text; page numbers are kept for citations
+- Pages with almost no text are flagged for OCR
+
+## 2026-10-30: requirements.txt created with pip freeze
+- Why: it records the exact versions that worked, so the service rebuilds the same way anywhere
