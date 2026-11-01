@@ -1,8 +1,10 @@
 from fastapi import FastAPI, File, HTTPException, UploadFile
+from pydantic import BaseModel, Field
 
+from app.chunking import CHUNK_WORDS, OVERLAP_WORDS, chunk_pages
 from app.errors import ExtractionError, OcrUnavailableError
 from app.extraction import detect_kind, extract_pdf
-from app.ocr import ocr_image_bytes, clean_text
+from app.ocr import clean_text, ocr_image_bytes
 
 app = FastAPI(title="CiteWise AI service")
 
@@ -45,3 +47,24 @@ def extract(file: UploadFile = File(...), ocr: bool = True):
         raise HTTPException(status_code=422, detail=str(exc))
 
     return {"page_count": len(pages), "pages": pages}
+
+
+class PageIn(BaseModel):
+    page_number: int = Field(ge=1)
+    text: str
+
+
+class ChunkRequest(BaseModel):
+    pages: list[PageIn] = Field(max_length=300)
+    chunk_words: int = Field(default=CHUNK_WORDS, ge=50, le=400)
+    overlap_words: int = Field(default=OVERLAP_WORDS, ge=0, le=200)
+
+
+@app.post("/chunk")
+def chunk(request: ChunkRequest):
+    if request.overlap_words * 2 > request.chunk_words:
+        raise HTTPException(status_code=422, detail="overlap_words must be at most half of chunk_words")
+
+    chunks = chunk_pages([p.model_dump() for p in request.pages],
+                         request.chunk_words, request.overlap_words)
+    return {"chunk_count": len(chunks), "chunks": chunks}

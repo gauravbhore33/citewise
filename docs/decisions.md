@@ -107,3 +107,20 @@
 ## 2026-11-01: Schema change applied by hand to the existing database
 - The new SQL file also runs on fresh databases
 - Future improvement: a migration tool such as Flyway
+
+
+## 2026-11-01: Chunks of about 200 words with 40 words of overlap, never crossing a page
+- Why: 200 words is around 300 tokens, safely under the embedding model's 512-token limit; overlap protects ideas cut by a boundary
+- Chunks stay inside one page so every citation points at an exact page
+- Trade-off: an idea split across two pages becomes two chunks
+- These are starting values; Phase 7 compares other sizes using the evaluation set
+
+## 2026-11-01: Chunking is written by hand, without a framework
+- Why: the logic is short, fully testable, and I can explain every line
+
+## 2026-11-01: Chunk boundaries snap to sentence ends
+- Why: fewer chunks that start or stop in the middle of a sentence
+
+## 2026-11-01: Text cleaning drops lines with no letters and long decoration runs
+- Why: page numbers and dotted lines add noise to embeddings
+- Trade-off: lone code braces and number-only table lines are lost
