@@ -124,3 +124,20 @@
 ## 2026-11-01: Text cleaning drops lines with no letters and long decoration runs
 - Why: page numbers and dotted lines add noise to embeddings
 - Trade-off: lone code braces and number-only table lines are lost
+
+
+## 2026-11-01: Chunks and vectors are written with plain SQL (JdbcTemplate), not a JPA entity
+- Why: Hibernate does not map the pgvector column cleanly; the SQL file stays the single source of truth
+- Trade-off: this one table is outside the entity model
+
+## 2026-11-01: A document becomes READY only after its vectors are stored
+- Why: the chunk replacement and the status change happen in one transaction, so search never sees a half-written document
+
+## 2026-11-01: Search filters by user inside the same SQL query as the ranking
+- Why: filtering after fetching the top results could leak other users' text or hide the user's own matches
+
+## 2026-11-01: Search starts as exact (no index); the HNSW index comes later
+- Why: exact search is the baseline for measuring recall and speed of the approximate index
+
+## 2026-11-01: The API returns both similarity and distance
+- Similarity (1 minus cosine distance) reads more naturally; the raw distance matches what pgvector reports
