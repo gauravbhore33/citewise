@@ -1,7 +1,10 @@
+from typing import Annotated, Literal
+
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel, Field
 
 from app.chunking import CHUNK_WORDS, OVERLAP_WORDS, chunk_pages
+from app.embedding import EMBEDDING_DIM, MODEL_NAME, embed_passages, embed_query
 from app.errors import ExtractionError, OcrUnavailableError
 from app.extraction import detect_kind, extract_pdf
 from app.ocr import clean_text, ocr_image_bytes
@@ -68,3 +71,17 @@ def chunk(request: ChunkRequest):
     chunks = chunk_pages([p.model_dump() for p in request.pages],
                          request.chunk_words, request.overlap_words)
     return {"chunk_count": len(chunks), "chunks": chunks}
+
+
+class EmbedRequest(BaseModel):
+    texts: list[Annotated[str, Field(min_length=1, max_length=8000)]] = Field(min_length=1, max_length=64)
+    kind: Literal["passage", "query"] = "passage"
+
+
+@app.post("/embed")
+def embed(request: EmbedRequest):
+    if request.kind == "query":
+        vectors = [embed_query(text) for text in request.texts]
+    else:
+        vectors = embed_passages(request.texts)
+    return {"model": MODEL_NAME, "dimension": EMBEDDING_DIM, "embeddings": vectors}

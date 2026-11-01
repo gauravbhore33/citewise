@@ -1,3 +1,5 @@
+ai-service/model_cache/
+
 # secrets
 .env
 
