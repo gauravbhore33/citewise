@@ -176,3 +176,20 @@
 ## 2026-11-14: Example files contain placeholders only
 - GitHub push protection blocked a push because a real API key was in .env.example
 - The key was revoked and replaced, and the commit was rewritten before any push
+
+
+## 2026-11-15: The evaluation judges retrieval by phrases, not page numbers
+- Each answerable question lists short phrases found only in the answering text
+- Why: page numbers change when a file is re-uploaded, and phrases are chosen so the question-list pages do not match
+
+## 2026-11-15: 30 questions, one-third unanswerable
+- 20 answerable (3 paraphrased), 5 related-but-absent, 5 off-topic
+- Metrics: hit@1/3/5, MRR, false refusals, false answers, citation support, refusals by layer
+
+## 2026-11-15: Tuning and testing on the same questions overstates the result
+- Plan: add about 10 fresh questions at the end and report them separately as a held-out check
+
+## 2026-11-15: Observation, question-list pages outrank answer pages
+- The notes end with a list of interview questions; questions embed close to other questions
+- ACID, LEFT JOIN and first normal form all returned list pages first
+- Phase 7 experiment: down-rank or exclude question-list chunks, and compare hybrid keyword plus vector search
