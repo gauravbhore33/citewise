@@ -193,3 +193,10 @@
 - The notes end with a list of interview questions; questions embed close to other questions
 - ACID, LEFT JOIN and first normal form all returned list pages first
 - Phase 7 experiment: down-rank or exclude question-list chunks, and compare hybrid keyword plus vector search
+
+
+## 2026-11-15: The LLM provider retries transient failures up to three attempts
+- Observed: one question failed because the model provider answered HTTP 500; the same question worked on the next try
+- Retried: 429, 500, 502, 503, 504 and dropped connections, waiting 1 and 3 seconds (or the provider's Retry-After, capped at 10 seconds)
+- Not retried: bad key (401/403), other client errors, and timeouts (already waited the full timeout)
+- Failures that remain are saved as ERROR rows and shown to the user as a clean 503

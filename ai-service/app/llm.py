@@ -1,8 +1,13 @@
+import time
 from functools import lru_cache
 
 import httpx
 
 from app import config
+
+RETRY_DELAYS_SECONDS = (1.0, 3.0)                  # waits before the 2nd and 3rd attempt
+RETRYABLE_STATUS = {429, 500, 502, 503, 504}
+MAX_RETRY_AFTER_SECONDS = 10.0
 
 
 class LlmError(Exception):
@@ -27,33 +32,57 @@ class OpenAICompatibleProvider:
         if not (self.base_url and self.model and self.api_key):
             raise LlmError("The language model is not configured on the server", 503)
 
-        try:
-            response = httpx.post(
-                f"{self.base_url}/chat/completions",
-                headers={"Authorization": f"Bearer {self.api_key}"},
-                json={
-                    "model": self.model,
-                    "messages": [
-                        {"role": "system", "content": system},
-                        {"role": "user", "content": user},
-                    ],
-                    "temperature": 0,
-                    "max_tokens": self.max_tokens,
-                },
-                timeout=self.timeout,
-            )
-        except httpx.TimeoutException as exc:
-            raise LlmError("The language model took too long to answer", 504) from exc
-        except httpx.HTTPError as exc:
-            raise LlmError("The language model could not be reached", 502) from exc
+        payload = {
+            "model": self.model,
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            "temperature": 0,
+            "max_tokens": self.max_tokens,
+        }
+        attempts = len(RETRY_DELAYS_SECONDS) + 1
+        last_error: LlmError | None = None
+        delay = 0.0
 
-        if response.status_code == 429:
-            raise LlmError("The language model is busy (rate limit). Please try again shortly.", 503)
-        if response.status_code in (401, 403):
-            raise LlmError("The language model rejected the server's API key", 502)
-        if response.status_code >= 400:
-            raise LlmError(f"The language model returned an error ({response.status_code})", 502)
+        for attempt in range(attempts):
+            delay = RETRY_DELAYS_SECONDS[attempt] if attempt < attempts - 1 else 0.0
+            try:
+                response = httpx.post(
+                    f"{self.base_url}/chat/completions",
+                    headers={"Authorization": f"Bearer {self.api_key}"},
+                    json=payload,
+                    timeout=self.timeout,
+                )
+            except httpx.TimeoutException as exc:
+                # we already waited the full timeout, so do not wait again
+                raise LlmError("The language model took too long to answer", 504) from exc
+            except httpx.HTTPError:
+                last_error = LlmError("The language model could not be reached", 502)
+            else:
+                code = response.status_code
+                if code in (401, 403):
+                    raise LlmError("The language model rejected the server's API key", 502)
+                if code in RETRYABLE_STATUS:
+                    if code == 429:
+                        last_error = LlmError("The language model is busy (rate limit). Please try again shortly.", 503)
+                        retry_after = response.headers.get("retry-after", "")
+                        if retry_after.replace(".", "", 1).isdigit():
+                            delay = min(float(retry_after), MAX_RETRY_AFTER_SECONDS)
+                    else:
+                        last_error = LlmError(f"The language model returned an error ({code})", 502)
+                elif code >= 400:
+                    raise LlmError(f"The language model returned an error ({code})", 502)
+                else:
+                    return self._read_answer(response)
 
+            if attempt < attempts - 1:
+                time.sleep(delay)
+
+        raise last_error or LlmError("The language model could not be used", 502)
+
+    @staticmethod
+    def _read_answer(response: httpx.Response) -> str:
         try:
             return response.json()["choices"][0]["message"]["content"] or ""
         except (KeyError, IndexError, ValueError, TypeError) as exc:
