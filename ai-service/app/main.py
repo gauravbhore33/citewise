@@ -3,11 +3,14 @@ from typing import Annotated, Literal
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel, Field
 
+from app import config
 from app.chunking import CHUNK_WORDS, OVERLAP_WORDS, chunk_pages
 from app.embedding import EMBEDDING_DIM, MODEL_NAME, embed_passages, embed_query
 from app.errors import ExtractionError, OcrUnavailableError
 from app.extraction import detect_kind, extract_pdf
+from app.llm import LlmError, get_provider
 from app.ocr import clean_text, ocr_image_bytes
+from app.rag import SYSTEM_PROMPT, build_user_prompt, parse_answer
 
 app = FastAPI(title="CiteWise AI service")
 
@@ -85,3 +88,28 @@ def embed(request: EmbedRequest):
     else:
         vectors = embed_passages(request.texts)
     return {"model": MODEL_NAME, "dimension": EMBEDDING_DIM, "embeddings": vectors}
+
+
+class ContextIn(BaseModel):
+    n: int = Field(ge=1, le=50)
+    document: str = Field(max_length=300)
+    page: int = Field(ge=1)
+    text: str = Field(min_length=1, max_length=6000)
+
+
+class AnswerRequest(BaseModel):
+    question: str = Field(min_length=1, max_length=1000)
+    contexts: list[ContextIn] = Field(min_length=1, max_length=10)
+
+
+@app.post("/answer")
+def answer(request: AnswerRequest):
+    contexts = [c.model_dump() for c in request.contexts]
+    try:
+        raw = get_provider().complete(SYSTEM_PROMPT, build_user_prompt(request.question, contexts))
+    except LlmError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=str(exc))
+
+    result = parse_answer(raw, {c["n"] for c in contexts})
+    result["model"] = config.LLM_MODEL
+    return result

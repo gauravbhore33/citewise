@@ -141,3 +141,23 @@
 
 ## 2026-11-01: The API returns both similarity and distance
 - Similarity (1 minus cosine distance) reads more naturally; the raw distance matches what pgvector reports
+
+
+## 2026-11-01: Two layers of refusal
+- Layer 1: if the best retrieved chunk scores below a threshold, refuse without calling the model (cheap, cannot hallucinate)
+- Layer 2: the prompt tells the model to answer NOT_FOUND when the passages do not contain the answer, which catches questions on the right topic that the notes do not cover
+- The threshold is chosen from calibration and the evaluation set, not guessed
+
+## 2026-11-01: Citations are validated, and sources come from the database
+- The model cites numbered passages; any number that was not sent is deleted from the answer
+- The sources list is built from stored chunk rows, never from model-written text, so a source cannot be invented
+
+## 2026-11-01: Retrieved passages are treated as untrusted data
+- Why: a document could contain instructions (prompt injection); the prompt says to ignore them
+
+## 2026-11-01: One provider class for any OpenAI-compatible API
+- Why: Groq, OpenAI and local Ollama all speak the same protocol, so switching is a change in .env
+- The API key is read from the environment, sent only in the request header, and never logged
+
+## 2026-11-01: Temperature 0 for answers
+- Why: factual answers from sources should be repeatable
