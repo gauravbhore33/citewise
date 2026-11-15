@@ -19,6 +19,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Component
 public class AiServiceClient {
 
+    /** Asks the language model to answer from numbered passages. */
+    public AnswerResult answer(String question, List<AnswerContext> contexts) {
+        return restClient.post()
+                .uri("/answer")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new AnswerRequest(question, contexts))
+                .retrieve()
+                .body(AnswerResult.class);
+    }
+
     public static final int EMBEDDING_DIMENSION = 384;
     private static final int EMBED_BATCH_SIZE = 32;
     private static final int MAX_TEXT_CHARS = 8000;
@@ -26,6 +36,13 @@ public class AiServiceClient {
     public record PageIn(@JsonProperty("page_number") int pageNumber, String text) {}
     public record ChunkRequest(List<PageIn> pages) {}
     public record EmbedRequest(List<String> texts, String kind) {}
+
+    public record AnswerContext(int n, String document, int page, String text) {}
+    public record AnswerRequest(String question, List<AnswerContext> contexts) {}
+    public record AnswerResult(String answer,
+                               @JsonProperty("not_found") boolean notFound,
+                               List<Integer> cited,
+                               String model) {}
 
     private final RestClient restClient;
 
