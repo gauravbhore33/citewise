@@ -161,3 +161,18 @@
 
 ## 2026-11-01: Temperature 0 for answers
 - Why: factual answers from sources should be repeatable
+
+
+## 2026-11-14: Starting layer-1 threshold is 0.50 similarity
+- Measured on 25 questions: answerable 0.586 to 0.923, off-topic up to 0.566, related-but-absent up to 0.674
+- A single threshold cannot separate related-but-absent questions from answerable ones, so layer 2 (the model's NOT_FOUND) is required
+- 0.50 never refused an answerable question in the sample; false refusals cost more than extra model calls
+- To be tuned with the Phase 6 evaluation set
+
+## 2026-11-14: The citation parser accepts the model's own bracket styles
+- The model wrote 【1†L1-L3】 instead of [1]; the parser normalises it and still deletes numbers that were not sent
+- The prompt also asks for plain [n] citations
+
+## 2026-11-14: Example files contain placeholders only
+- GitHub push protection blocked a push because a real API key was in .env.example
+- The key was revoked and replaced, and the commit was rewritten before any push

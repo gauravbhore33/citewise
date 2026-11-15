@@ -73,3 +73,16 @@ def test_answer_endpoint_rejects_empty_context():
     client = TestClient(main_module.app)
     response = client.post("/answer", json={"question": "Q?", "contexts": []})
     assert response.status_code == 422
+
+
+def test_fullwidth_bracket_citations_are_normalised():
+    raw = "A super key is any set【1】. The default is REPEATABLE READ【2†L1-L3】【4†L3-L5】"
+    result = parse_answer(raw, {1, 2, 4})
+    assert result["cited"] == [1, 2, 4]
+    assert "【" not in result["answer"]
+
+
+def test_grouped_citations_are_split_and_validated():
+    result = parse_answer("Both facts [1, 2, 9].", {1, 2})
+    assert result["cited"] == [1, 2]
+    assert "[9]" not in result["answer"]
