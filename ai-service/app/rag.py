@@ -33,6 +33,7 @@ def build_user_prompt(question: str, contexts: list[dict]) -> str:
 def parse_answer(raw: str, valid_numbers: set[int]) -> dict:
     """Turn the model's raw reply into an answer, a not-found flag and a list of valid citations."""
     text = _THINK_BLOCK.sub("", raw or "").strip()
+    text = re.sub(r"[\u00a0\u2009\u202f]", " ", text)
 
     if not text or text.upper().startswith(NOT_FOUND_MARKER):
         return {"answer": "", "not_found": True, "cited": []}

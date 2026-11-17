@@ -49,3 +49,5 @@ main { display: grid; grid-template-columns: 320px 1fr; gap: 16px; align-items: 
 .snippet { white-space: pre-wrap; color: #344054; font-size: 0.88rem; }
 form.ask { display: flex; gap: 8px; }
 form.ask input { flex: 1; }
+
+input[type="file"] { width: 100%; max-width: 100%; }

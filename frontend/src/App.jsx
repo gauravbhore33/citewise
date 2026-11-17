@@ -176,7 +176,7 @@ function Documents({ token, onLogout }) {
 
 function Message({ item }) {
   const notFound = item.status === "NOT_FOUND";
-  const answer = (item.answer || "").replace(/\*\*/g, "");
+  const answer = (item.answer || "").replace(/\*\*/g, "").replace(/[\u00a0\u2009\u202f]/g, " ");
   const sources = item.sources || [];
   const citedCount = sources.filter((s) => s.cited).length;
 
