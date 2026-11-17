@@ -1,0 +1,51 @@
+:root {
+  color-scheme: light;
+  --accent: #2457d6;
+  --border: #d8dce3;
+  --muted: #667085;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, "Segoe UI", sans-serif;
+  background: #f4f6fa;
+  color: #1c2430;
+}
+h1, h2 { margin: 0 0 8px; }
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
+.error { color: #b42318; }
+.card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+
+input { padding: 9px 10px; border: 1px solid var(--border); border-radius: 6px; font: inherit; }
+button { padding: 9px 14px; border: 0; border-radius: 6px; background: var(--accent); color: #fff; font: inherit; cursor: pointer; }
+button:disabled { opacity: 0.6; cursor: default; }
+button.link { background: none; color: var(--accent); padding: 4px 0; }
+button.secondary { background: #eef1f7; color: #1c2430; }
+
+.auth { max-width: 380px; margin: 12vh auto 0; }
+.auth form { display: flex; flex-direction: column; gap: 10px; margin: 16px 0 8px; }
+
+.app { max-width: 1100px; margin: 0 auto; padding: 16px; }
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+main { display: grid; grid-template-columns: 320px 1fr; gap: 16px; align-items: start; }
+@media (max-width: 800px) { main { grid-template-columns: 1fr; } }
+
+.docs { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-direction: column; gap: 8px; }
+.doc { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+.docname { font-weight: 600; word-break: break-word; }
+.pill { padding: 1px 8px; border-radius: 999px; font-size: 0.8rem; }
+.pill.READY { background: #e6f6ec; color: #17713a; }
+.pill.FAILED { background: #fdecec; color: #b42318; }
+.pill.UPLOADED, .pill.PROCESSING { background: #fff4de; color: #9a5b00; }
+
+.messages { display: flex; flex-direction: column; gap: 16px; max-height: 60vh; overflow: auto; margin-bottom: 12px; }
+.question { font-weight: 600; }
+.answer { white-space: pre-wrap; margin-top: 4px; }
+.answer.notfound { color: #8a4b00; }
+.sources { margin-top: 6px; }
+.source { border-left: 3px solid var(--border); padding: 4px 8px; margin: 6px 0; }
+.source.cited { border-left-color: var(--accent); background: #f3f6ff; }
+.snippet { white-space: pre-wrap; color: #344054; font-size: 0.88rem; }
+form.ask { display: flex; gap: 8px; }
+form.ask input { flex: 1; }

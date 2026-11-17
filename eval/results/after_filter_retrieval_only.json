@@ -1,0 +1,395 @@
+{
+  "created": "2026-11-16T12:08:16",
+  "rows": [
+    {
+      "id": "A01",
+      "category": "answerable",
+      "question": "What is the difference between a candidate key and a super key?",
+      "answerable": true,
+      "top_similarity": 0.9233295963210124,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p6",
+        "MySQL And DBMS.pdf p5",
+        "MySQL And DBMS.pdf p6"
+      ]
+    },
+    {
+      "id": "A02",
+      "category": "answerable",
+      "question": "What is the default isolation level in MySQL?",
+      "answerable": true,
+      "top_similarity": 0.8925700187683105,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p28",
+        "MySQL And DBMS.pdf p28",
+        "MySQL And DBMS.pdf p26"
+      ]
+    },
+    {
+      "id": "A03",
+      "category": "answerable",
+      "question": "What are the ACID properties?",
+      "answerable": true,
+      "top_similarity": 0.6435220837593079,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p11",
+        "MySQL And DBMS.pdf p12",
+        "MySQL And DBMS.pdf p12"
+      ]
+    },
+    {
+      "id": "A04",
+      "category": "answerable",
+      "question": "What is the difference between DELETE, TRUNCATE and DROP?",
+      "answerable": true,
+      "top_similarity": 0.7814605236053467,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p13",
+        "MySQL And DBMS.pdf p14",
+        "MySQL Handbook.pdf p19"
+      ]
+    },
+    {
+      "id": "A05",
+      "category": "answerable",
+      "question": "What is the difference between WHERE and HAVING?",
+      "answerable": true,
+      "top_similarity": 0.7225227355957031,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p15",
+        "MySQL Handbook.pdf p62",
+        "MySQL Handbook.pdf p60"
+      ]
+    },
+    {
+      "id": "A06",
+      "category": "answerable",
+      "question": "What is a dirty read?",
+      "answerable": true,
+      "top_similarity": 0.5860227346420288,
+      "hit_rank": 5,
+      "top_pages": [
+        "MySQL And DBMS.pdf p27",
+        "MySQL And DBMS.pdf p26",
+        "MySQL And DBMS.pdf p26"
+      ]
+    },
+    {
+      "id": "A07",
+      "category": "answerable",
+      "question": "What is the leftmost prefix rule for indexes?",
+      "answerable": true,
+      "top_similarity": 0.7593250274658203,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p23",
+        "MySQL And DBMS.pdf p22",
+        "MySQL Handbook.pdf p56"
+      ]
+    },
+    {
+      "id": "A08",
+      "category": "answerable",
+      "question": "What does a LEFT JOIN return?",
+      "answerable": true,
+      "top_similarity": 0.7584230159773253,
+      "hit_rank": 2,
+      "top_pages": [
+        "MySQL And DBMS.pdf p21",
+        "MySQL And DBMS.pdf p19",
+        "MySQL Handbook.pdf p41"
+      ]
+    },
+    {
+      "id": "A09",
+      "category": "answerable",
+      "question": "What is first normal form?",
+      "answerable": true,
+      "top_similarity": 0.6897636425776907,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p11",
+        "MySQL And DBMS.pdf p8",
+        "MySQL And DBMS.pdf p7"
+      ]
+    },
+    {
+      "id": "A10",
+      "category": "answerable",
+      "question": "How do I create a stored procedure in MySQL?",
+      "answerable": true,
+      "top_similarity": 0.8130472898483276,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL Handbook.pdf p64",
+        "MySQL Handbook.pdf p65",
+        "MySQL Handbook.pdf p66"
+      ]
+    },
+    {
+      "id": "A11",
+      "category": "answerable",
+      "question": "What does ON DELETE CASCADE do?",
+      "answerable": true,
+      "top_similarity": 0.7633307435113649,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL Handbook.pdf p38",
+        "MySQL Handbook.pdf p20",
+        "MySQL Handbook.pdf p19"
+      ]
+    },
+    {
+      "id": "A12",
+      "category": "answerable",
+      "question": "What is a view in MySQL?",
+      "answerable": true,
+      "top_similarity": 0.9002841442738765,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL Handbook.pdf p51",
+        "MySQL And DBMS.pdf p24",
+        "MySQL And DBMS.pdf p21"
+      ]
+    },
+    {
+      "id": "A13",
+      "category": "paraphrased",
+      "question": "How do I avoid storing the same data many times in a database?",
+      "answerable": true,
+      "top_similarity": 0.7151069810922766,
+      "hit_rank": 3,
+      "top_pages": [
+        "MySQL And DBMS.pdf p29",
+        "MySQL And DBMS.pdf p27",
+        "MySQL And DBMS.pdf p7"
+      ]
+    },
+    {
+      "id": "A14",
+      "category": "paraphrased",
+      "question": "What happens if a money transfer fails halfway through?",
+      "answerable": true,
+      "top_similarity": 0.6498163938522339,
+      "hit_rank": 2,
+      "top_pages": [
+        "MySQL And DBMS.pdf p12",
+        "MySQL And DBMS.pdf p12",
+        "MySQL And DBMS.pdf p25"
+      ]
+    },
+    {
+      "id": "A15",
+      "category": "paraphrased",
+      "question": "Which command empties a table but keeps its structure?",
+      "answerable": true,
+      "top_similarity": 0.6685663461685181,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p13",
+        "MySQL And DBMS.pdf p14",
+        "MySQL And DBMS.pdf p27"
+      ]
+    },
+    {
+      "id": "A16",
+      "category": "answerable",
+      "question": "Can a foreign key contain NULL values?",
+      "answerable": true,
+      "top_similarity": 0.7272308631401753,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p5",
+        "MySQL And DBMS.pdf p17",
+        "MySQL Handbook.pdf p36"
+      ]
+    },
+    {
+      "id": "A17",
+      "category": "answerable",
+      "question": "Why can a UNIQUE column hold several NULL values in MySQL?",
+      "answerable": true,
+      "top_similarity": 0.8183619623888128,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p17",
+        "MySQL Handbook.pdf p21",
+        "MySQL Handbook.pdf p24"
+      ]
+    },
+    {
+      "id": "A18",
+      "category": "answerable",
+      "question": "How can I check whether a query uses an index?",
+      "answerable": true,
+      "top_similarity": 0.7690287966115014,
+      "hit_rank": 2,
+      "top_pages": [
+        "MySQL And DBMS.pdf p22",
+        "MySQL And DBMS.pdf p23",
+        "MySQL Handbook.pdf p54"
+      ]
+    },
+    {
+      "id": "A19",
+      "category": "answerable",
+      "question": "Does MySQL support FULL OUTER JOIN?",
+      "answerable": true,
+      "top_similarity": 0.8502653419655214,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p20",
+        "MySQL And DBMS.pdf p21",
+        "MySQL Handbook.pdf p40"
+      ]
+    },
+    {
+      "id": "A20",
+      "category": "answerable",
+      "question": "What is a composite key?",
+      "answerable": true,
+      "top_similarity": 0.7560815440440641,
+      "hit_rank": 1,
+      "top_pages": [
+        "MySQL And DBMS.pdf p6",
+        "MySQL And DBMS.pdf p6",
+        "MySQL And DBMS.pdf p9"
+      ]
+    },
+    {
+      "id": "U01",
+      "category": "related_absent",
+      "question": "What is database sharding?",
+      "answerable": false,
+      "top_similarity": 0.673599123954773,
+      "hit_rank": null,
+      "top_pages": [
+        "MySQL And DBMS.pdf p7",
+        "MySQL Handbook.pdf p2",
+        "MySQL And DBMS.pdf p1"
+      ]
+    },
+    {
+      "id": "U02",
+      "category": "related_absent",
+      "question": "Explain the CAP theorem.",
+      "answerable": false,
+      "top_similarity": 0.5786191569935784,
+      "hit_rank": null,
+      "top_pages": [
+        "MySQL And DBMS.pdf p12",
+        "MySQL And DBMS.pdf p26",
+        "MySQL And DBMS.pdf p11"
+      ]
+    },
+    {
+      "id": "U03",
+      "category": "related_absent",
+      "question": "How does Redis caching work?",
+      "answerable": false,
+      "top_similarity": 0.6247331575036374,
+      "hit_rank": null,
+      "top_pages": [
+        "MySQL And DBMS.pdf p29",
+        "MySQL And DBMS.pdf p26",
+        "MySQL And DBMS.pdf p25"
+      ]
+    },
+    {
+      "id": "U04",
+      "category": "related_absent",
+      "question": "How do I configure MySQL replication between two servers?",
+      "answerable": false,
+      "top_similarity": 0.7202089595670244,
+      "hit_rank": null,
+      "top_pages": [
+        "MySQL Handbook.pdf p3",
+        "MySQL Handbook.pdf p2",
+        "MySQL Handbook.pdf p30"
+      ]
+    },
+    {
+      "id": "U05",
+      "category": "related_absent",
+      "question": "What is a B+ tree and how is it stored on disk?",
+      "answerable": false,
+      "top_similarity": 0.5932533079314233,
+      "hit_rank": null,
+      "top_pages": [
+        "MySQL And DBMS.pdf p2",
+        "MySQL And DBMS.pdf p1",
+        "MySQL And DBMS.pdf p3"
+      ]
+    },
+    {
+      "id": "U06",
+      "category": "off_topic",
+      "question": "What is the capital of France?",
+      "answerable": false,
+      "top_similarity": 0.44091812480472337,
+      "hit_rank": null,
+      "top_pages": [
+        "MySQL Handbook.pdf p28",
+        "MySQL Handbook.pdf p41",
+        "MySQL And DBMS.pdf p10"
+      ]
+    },
+    {
+      "id": "U07",
+      "category": "off_topic",
+      "question": "How does a neural network learn?",
+      "answerable": false,
+      "top_similarity": 0.5272268934710694,
+      "hit_rank": null,
+      "top_pages": [
+        "MySQL And DBMS.pdf p11",
+        "MySQL And DBMS.pdf p10",
+        "MySQL And DBMS.pdf p2"
+      ]
+    },
+    {
+      "id": "U08",
+      "category": "off_topic",
+      "question": "How do I bake a chocolate cake?",
+      "answerable": false,
+      "top_similarity": 0.4609561860561371,
+      "hit_rank": null,
+      "top_pages": [
+        "MySQL Handbook.pdf p68",
+        "MySQL Handbook.pdf p4",
+        "MySQL Handbook.pdf p65"
+      ]
+    },
+    {
+      "id": "U09",
+      "category": "off_topic",
+      "question": "Who won the last cricket world cup?",
+      "answerable": false,
+      "top_similarity": 0.4981310962516732,
+      "hit_rank": null,
+      "top_pages": [
+        "MySQL Handbook.pdf p41",
+        "MySQL Handbook.pdf p42",
+        "MySQL Handbook.pdf p43"
+      ]
+    },
+    {
+      "id": "U10",
+      "category": "off_topic",
+      "question": "What is photosynthesis?",
+      "answerable": false,
+      "top_similarity": 0.5484417080879211,
+      "hit_rank": null,
+      "top_pages": [
+        "MySQL And DBMS.pdf p3",
+        "MySQL And DBMS.pdf p1",
+        "MySQL Handbook.pdf p5"
+      ]
+    }
+  ]
+}

@@ -42,9 +42,11 @@ def main():
     parser.add_argument("--no-chat", action="store_true", help="measure retrieval only (no language model calls)")
     parser.add_argument("--pause", type=float, default=3.0, help="seconds to wait between model calls")
     parser.add_argument("--top", type=int, default=5)
+    parser.add_argument("--label", default="run", help="prefix of the saved results file")
+    parser.add_argument("--questions", default=str(QUESTIONS_FILE), help="path of the questions file")
     args = parser.parse_args()
 
-    questions = json.loads(QUESTIONS_FILE.read_text(encoding="utf-8"))
+    questions = json.loads(Path(args.questions).read_text(encoding="utf-8"))
     token = login("one")
     rows = []
 
@@ -130,7 +132,7 @@ def main():
             print(f"  CHECK {r['id']} [{r['status']}/{r['reason']}] similarity {r['top_similarity']:.3f}: {r['question']}")
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    out = RESULTS_DIR / f"run_{datetime.now():%Y%m%d_%H%M}.json"
+    out = RESULTS_DIR / f"{args.label}_{datetime.now():%Y%m%d_%H%M}.json"
     out.write_text(json.dumps({"created": datetime.now().isoformat(timespec="seconds"), "rows": rows},
                               indent=2), encoding="utf-8")
     print(f"\nSaved: {out}")

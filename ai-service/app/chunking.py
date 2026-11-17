@@ -1,6 +1,9 @@
 import os
 import re
 
+# a chunk made mostly of questions (an interview question list) cannot answer anything
+QUESTION_LIST_RATIO = float(os.getenv("QUESTION_LIST_RATIO", "0.04"))   # question marks per word
+MIN_WORDS_FOR_QUESTION_CHECK = 40
 CHUNK_WORDS = int(os.getenv("CHUNK_WORDS", "200"))
 OVERLAP_WORDS = int(os.getenv("OVERLAP_WORDS", "40"))
 MIN_CHUNK_WORDS = int(os.getenv("MIN_CHUNK_WORDS", "8"))   # smaller pieces carry too little meaning
@@ -62,6 +65,14 @@ def chunk_page(text: str, size: int = CHUNK_WORDS, overlap: int = OVERLAP_WORDS,
     return chunks
 
 
+def is_question_list(text: str) -> bool:
+    """True when the text is mostly questions, such as a list of interview questions."""
+    words = text.split()
+    if len(words) < MIN_WORDS_FOR_QUESTION_CHECK:
+        return False
+    return text.count("?") / len(words) >= QUESTION_LIST_RATIO
+
+
 def chunk_pages(pages: list[dict], size: int = CHUNK_WORDS, overlap: int = OVERLAP_WORDS) -> list[dict]:
     """Chunk every page of a document. Chunks never cross a page boundary."""
     result = []
@@ -69,6 +80,8 @@ def chunk_pages(pages: list[dict], size: int = CHUNK_WORDS, overlap: int = OVERL
     for page in sorted(pages, key=lambda p: p["page_number"]):
         text = clean_text(page["text"])
         for piece in chunk_page(text, size, overlap):
+            if is_question_list(piece):
+                continue                       # a list of questions cannot answer a question
             result.append({
                 "chunk_index": index,
                 "page_number": page["page_number"],

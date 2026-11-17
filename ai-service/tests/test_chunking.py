@@ -54,3 +54,22 @@ def test_pages_keep_their_numbers_and_chunks_are_numbered_in_order():
 
 def test_tiny_pages_are_skipped():
     assert chunk_pages([{"page_number": 1, "text": "Contents"}]) == []
+
+from app.chunking import is_question_list
+
+
+def test_a_list_of_questions_is_detected():
+    text = " ".join(f"{i}. What is thing number {i} in databases?" for i in range(1, 25))
+    assert is_question_list(text)
+
+
+def test_explanations_with_a_few_questions_are_kept():
+    text = "What is a primary key? " + "A primary key uniquely identifies each row in a table. " * 30
+    assert not is_question_list(text)
+
+
+def test_question_lists_are_not_stored_as_chunks():
+    questions = " ".join(f"{i}. What is thing number {i} in databases?" for i in range(1, 60))
+    pages = [{"page_number": 1, "text": questions}, {"page_number": 2, "text": make_text(60)}]
+    chunks = chunk_pages(pages)
+    assert [c["page_number"] for c in chunks] == [2]
